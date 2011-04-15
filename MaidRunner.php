@@ -12,26 +12,34 @@ require_once "MaidDefault.php";
 class MaidRunner {
 
 	/**
-	 * @var 
+	 * Default location of custom build files
+	 * @var string
 	 */
 	protected $defaultMaidFile = "Maid.php";
 
 	/**
-	 * 
+	 * All output should be set to the logger.
+	 *
+	 * @var Logger 
 	 */
 	protected $logger;
 	
 	/**
-	 * 
+	 * The full path of the Maid.php
+	 * @var string
 	 */
+	protected $realpath;
+	
 	public function __construct($logger) {
 		$this->logger = $logger;
 		$this->realPath = realpath($this->defaultMaidFile);
 		set_exception_handler(array($this, "exceptionHandler"));
 	}
 
+	/**
+	 * List all the targets in the current build file.
+	 */
 	public function listTargets() {
-		
 
 		$this->logger->log("Below are all the available Maid targets for: {$this->realPath}\n", Logger::LEVEL_INFO);
 
@@ -65,10 +73,7 @@ class MaidRunner {
 		
 		$this->logger->log("Starting Maid...", Logger::LEVEL_INFO);
 		
-		if (!file_exists($this->defaultMaidFile)) {
-			throw new Exception("Unable to find Maid file '$this->defaultMaidFile'");
-		}
-		
+				
 		$maidClasses = $this->getMaidClasses();
 
 		if (count($maidClasses) > 0) {
@@ -86,12 +91,23 @@ class MaidRunner {
 		$this->logger->log("Maid finished", Logger::LEVEL_DEBUG);
 	}
 
+	/**
+	 * Finds all the custom maid classes
+	 */
 	protected function getMaidClasses() {
+		
+		if (!file_exists($this->defaultMaidFile)) {
+			throw new Exception("Unable to find Maid file '$this->defaultMaidFile'");
+		}
+
 		$definedClasses = get_declared_classes();
 		include $this->defaultMaidFile;
 		return array_diff(get_declared_classes(), $definedClasses);
 	}
 
+	/**
+	 * Exceptions are also sent to the defined logger.
+	 */
 	public function exceptionHandler($exception) {
 		$this->logger->log($exception, Logger::LEVEL_ERROR);
 		exit(1);
