@@ -22,7 +22,9 @@ $options = array(
 		return false;
 	}
 );
-
+if (count($argv) == 1) {
+	$argv[] = "-l";
+}
 foreach ($argv as $arg) {
 	if (isset($options[$arg])) {
 		if (!$options[$arg]()) {
