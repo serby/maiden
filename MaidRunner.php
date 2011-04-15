@@ -61,7 +61,7 @@ class MaidRunner {
 				$description = preg_replace("#^\s*\**\s*#m", "", $description);
 				$description = preg_replace("#^\s*/*\**\s*#m", "", $description);
 				$description = str_replace(array("\r", "\n"), "", $description);
-				if (!$method->isConstructor() && !$method->isDestructor() && (!in_array($name, array("init", "log")))) {
+				if (!$method->isConstructor() && !$method->isDestructor() && $method->isPublic()) {
 					$this->logger->log("\t\t" . $name . ($description == "" ? "" : " - " . $description) , Logger::LEVEL_INFO);
 				}
 			}

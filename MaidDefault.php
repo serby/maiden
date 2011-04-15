@@ -15,13 +15,34 @@ class MaidDefault {
 	/**
 	 * Override this method to do general setup instead of the construtor
 	 */
-	public function init() {
+	protected function init() {
 	}
 
 	/**
 	 * Proxy the log call
 	 */
-	public function log($message, $level = Logger::LEVEL_INFO) {
+	protected function log($message, $level = Logger::LEVEL_INFO) {
 		$this->logger->log($message, $level);	
+	}
+
+	protected function loadJson($filename) {
+
+		$return = json_decode(file_get_contents($filename));
+	
+		switch (json_last_error()) {
+			case JSON_ERROR_DEPTH:
+				throw new Exception("Parsing '{$filename}' - Maximum stack depth exceeded");
+			break;
+			case JSON_ERROR_CTRL_CHAR:
+				throw new Exception("Parsing '{$filename}' - Unexpected control character found");
+			break;
+			case JSON_ERROR_SYNTAX:
+				throw new Exception("Parsing '{$filename}' - Syntax error, malformed JSON");
+			break;
+			case JSON_ERROR_NONE:
+				break;
+		}
+
+		return $return;
 	}
 }
