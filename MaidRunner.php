@@ -41,7 +41,7 @@ class MaidRunner {
 	 */
 	public function listTargets() {
 
-		$this->logger->log("Below are all the available Maid targets for: {$this->realPath}\n", Logger::LEVEL_INFO);
+		$this->logger->log("Below are all the available Maid targets for: {$this->realPath}", Logger::LEVEL_INFO);
 
 		$maidClasses = $this->getMaidClasses();
 		
@@ -50,23 +50,39 @@ class MaidRunner {
 		}
 		foreach ($maidClasses as $maidClass) {
 
-			$reflection = new ReflectionClass($maidClass);
+			$class = new ReflectionClass($maidClass);
+			$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC); 
+			
+			// If there is one method this it is just the constructor so we can ignore this class
+			if (count($methods) <= 1) {
+				continue 1;
+			}
+			
+			$description = $this->cleanComment($class->getDocComment());
 
-			$this->logger->log("\t" . $reflection->getName(), Logger::LEVEL_INFO);
-
-			$methods = $reflection->getMethods(); 
+			$this->logger->log("\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n", Logger::LEVEL_INFO);
+		
 			foreach ($methods as $method) {
 				$name = $method->getName();
-				$description = $method->getDocComment();
-				$description = preg_replace("#^\s*\**\s*#m", "", $description);
-				$description = preg_replace("#^\s*/*\**\s*#m", "", $description);
-				$description = str_replace(array("\r", "\n"), "", $description);
-				if (!$method->isConstructor() && !$method->isDestructor() && $method->isPublic()) {
+				$description = $this->cleanComment($method->getDocComment());
+				if (!$method->isConstructor() && !$method->isDestructor()) {
 					$this->logger->log("\t\t" . $name . ($description == "" ? "" : " - " . $description) , Logger::LEVEL_INFO);
 				}
 			}
 		}
-		$this->logger->log("\n", Logger::LEVEL_INFO);
+		$this->logger->log("", Logger::LEVEL_INFO);
+	}
+
+	protected function splitWords($value) {
+		return preg_replace("/([A-Z])/", " $1", $value);
+	}
+
+	protected function cleanComment($comment) {
+		$comment = preg_replace("#^.*@.*$#m", "", $comment);
+		$comment = preg_replace("#^\s*\**\s*#m", "", $comment);
+		$comment = preg_replace("#^\s*/*\**\s*#m", "", $comment);
+		$comment = str_replace(array("\r", "\n"), "", $comment);
+		return $comment;
 	}
 
 	public function run($target) {
