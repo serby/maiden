@@ -7,5 +7,12 @@
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
  */
 interface IReplacer {
-	public function replace(array $replacements, $content);
+
+	/**
+	 * Replace any replacements values in $subject with the given value.
+	 *
+	 * @param array $replacements An associative array where key is the search string and value is the replacement string
+	 * @param mixed $subject The replacement subject
+	 */
+	public function replace(array $replacements, $subject);
 }
