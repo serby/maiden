@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Base class that all custom Maid.php should extend. 
+ * Base class that all custom Maid.php should extend.
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
  * @copyright Clock Limited 2011
@@ -10,6 +11,7 @@ class MaidDefault {
 
 	public function __construct($logger) {
 		$this->logger = $logger;
+		$this->init();
 	}
 
 	/**
@@ -22,13 +24,14 @@ class MaidDefault {
 	 * Proxy the log call
 	 */
 	protected function log($message, $level = Logger::LEVEL_INFO) {
-		$this->logger->log($message, $level);	
+		$this->logger->log($message, $level);
 	}
 
 	protected function loadJson($filename) {
+		$this->log("Loading JSON from '$filename'");
 
 		$return = json_decode(file_get_contents($filename));
-	
+
 		switch (json_last_error()) {
 			case JSON_ERROR_DEPTH:
 				throw new Exception("Parsing '{$filename}' - Maximum stack depth exceeded");

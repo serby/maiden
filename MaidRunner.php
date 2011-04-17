@@ -1,5 +1,7 @@
 <?php
 require_once "lib/Logger.php";
+require_once "lib/FileLineContentReplacer.php";
+require_once "lib/PhpTokenReplacer.php";
 require_once "MaidDefault.php";
 
 /**
@@ -96,8 +98,7 @@ class MaidRunner {
 			foreach ($maidClasses as $maidClass) {
 
 				$maidObject = new $maidClass($this->logger);
-				$maidObject->init();
-				$maidObject->{$target}();
+				method_exists($maidObject, $target) && $maidObject->{$target}();
 
 			}
 		} else {
