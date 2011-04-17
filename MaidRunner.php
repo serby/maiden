@@ -1,5 +1,5 @@
 <?php
-require_once "Logger.php";
+require_once "lib/Logger.php";
 require_once "MaidDefault.php";
 
 /**
@@ -20,16 +20,16 @@ class MaidRunner {
 	/**
 	 * All output should be set to the logger.
 	 *
-	 * @var Logger 
+	 * @var Logger
 	 */
 	protected $logger;
-	
+
 	/**
 	 * The full path of the Maid.php
 	 * @var string
 	 */
 	protected $realpath;
-	
+
 	public function __construct($logger) {
 		$this->logger = $logger;
 		$this->realPath = realpath($this->defaultMaidFile);
@@ -44,24 +44,24 @@ class MaidRunner {
 		$this->logger->log("Below are all the available Maid targets for: {$this->realPath}", Logger::LEVEL_INFO);
 
 		$maidClasses = $this->getMaidClasses();
-		
+
 		if (count($maidClasses) < 1) {
 			return false;
 		}
 		foreach ($maidClasses as $maidClass) {
 
 			$class = new ReflectionClass($maidClass);
-			$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC); 
-			
+			$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
+
 			// If there is one method this it is just the constructor so we can ignore this class
 			if (count($methods) <= 1) {
 				continue 1;
 			}
-			
+
 			$description = $this->cleanComment($class->getDocComment());
 
 			$this->logger->log("\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n", Logger::LEVEL_INFO);
-		
+
 			foreach ($methods as $method) {
 				$name = $method->getName();
 				$description = $this->cleanComment($method->getDocComment());
@@ -86,10 +86,10 @@ class MaidRunner {
 	}
 
 	public function run($target) {
-		
+
 		$this->logger->log("Starting Maid...", Logger::LEVEL_INFO);
-		
-				
+
+
 		$maidClasses = $this->getMaidClasses();
 
 		if (count($maidClasses) > 0) {
@@ -111,7 +111,7 @@ class MaidRunner {
 	 * Finds all the custom maid classes
 	 */
 	protected function getMaidClasses() {
-		
+
 		if (!file_exists($this->defaultMaidFile)) {
 			throw new Exception("Unable to find Maid file '$this->defaultMaidFile'");
 		}

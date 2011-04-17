@@ -8,7 +8,7 @@
  */
 
 require_once "MaidRunner.php";
-require_once "Logger.php";
+require_once "lib/Logger.php";
 
 $maidRunner = new MaidRunner(new Logger(Logger::LEVEL_DEBUG));
 
