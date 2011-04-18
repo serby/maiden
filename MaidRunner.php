@@ -2,6 +2,7 @@
 require_once "lib/Logger.php";
 require_once "lib/FileLineContentReplacer.php";
 require_once "lib/PhpTokenReplacer.php";
+require_once "lib/PostgresUpdater.php";
 require_once "MaidDefault.php";
 
 /**
