@@ -89,34 +89,39 @@ class MaidRunner {
 
 	public function run($target, $arguments = array()) {
 
-		$startTime = microtime();
+		$startTime = microtime(true);
 
 		$this->logger->log("Starting Maid target '$target'", Logger::LEVEL_INFO);
 
-
 		$maidClasses = $this->getMaidClasses();
-
 		if (count($maidClasses) > 0) {
 			foreach ($maidClasses as $maidClass) {
 
-
 				$reflectionClass = new ReflectionClass($maidClass);
-				$reflectionMethod = $reflectionClass->getMethod($target);
-				$parameters = $reflectionMethod->getParameters();
 
-				var_dump($parameters);
+				if ($reflectionClass->hasMethod($target)) {
+					$reflectionMethod = $reflectionClass->getMethod($target);
+					$parameters = $reflectionMethod->getParameters();
 
-				//$maidObject = new $maidClass($this->logger);
-				//method_exists($maidObject, $target) && $maidObject->{$target}();
+					$argCount = count($arguments);
 
+					for ($i =  $argCount; $i < count($parameters); $i++) {
+						$arguments[] = readline("Enter value for \$" . ($parameters[$i]->getName()) . ": ");
+					}
+
+					$maidObject = new $maidClass($this->logger);
+
+					call_user_method_array($target, $maidObject, $arguments);
+					break;
+				}
 			}
 		} else {
 			$this->logger->log("Unable to find a Maid class. Execution of target '$target' failed.", Logger::LEVEL_INFO);
 		}
 
-		$endTime = microtime() - $startTime;
+		$endTime = microtime(true) - $startTime;
 
-		$totalTime = $endTime;
+		$totalTime = number_format($endTime, 2);
 
 		$this->logger->log("Maid has finished in: {$totalTime}s", Logger::LEVEL_INFO);
 	}
