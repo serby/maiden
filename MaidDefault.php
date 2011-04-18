@@ -9,7 +9,12 @@
  */
 class MaidDefault {
 
-	public function __construct($logger) {
+	/**
+	 * @var Logger
+	 */
+	protected $logger;
+
+	public function __construct(Logger $logger) {
 		$this->logger = $logger;
 		$this->init();
 	}
