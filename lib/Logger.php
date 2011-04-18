@@ -1,6 +1,6 @@
 <?php
 /**
- * Basic logging to stdout 
+ * Basic logging to stdout
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
  * @copyright Clock Limited 2011
@@ -16,12 +16,27 @@ class Logger {
 	protected $level;
 
 	public function __construct($level = self::LEVEL_INFO) {
-		$this->level = $level;
+		$this->setLevel($level);
 	}
 
+	/**
+	 * Log a message
+	 *
+	 * @param string $message The message to log.
+	 * @param int $level - What level this message will be logged at
+	 */
 	public function log($message, $level = self::LEVEL_INFO) {
 		if ($level >= $this->level) {
-			echo $message . "\n";
+			echo date("Y-m-d H:i:s") . " " . $message . "\n";
 		}
+	}
+
+	/**
+	 * Defines the logging verbosity
+	 *
+	 * @param int  $level
+	 */
+	public function setLevel($level) {
+		$this->level = $level;
 	}
 }
