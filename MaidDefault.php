@@ -28,7 +28,7 @@ class MaidDefault {
 	}
 
 	protected function loadJson($filename) {
-		$this->log("Loading JSON from '$filename'");
+		$this->log("Loading JSON from '$filename'", Logger::LEVEL_DEBUG);
 
 		$return = json_decode(file_get_contents($filename));
 
