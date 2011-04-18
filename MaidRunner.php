@@ -43,7 +43,7 @@ class MaidRunner {
 	 */
 	public function listTargets() {
 
-		$this->logger->log("Below are all the available Maid targets for: {$this->realPath}", Logger::LEVEL_INFO);
+		echo "Below are all the available Maid targets for: {$this->realPath}\n";
 
 		$maidClasses = $this->getMaidClasses();
 
@@ -62,17 +62,17 @@ class MaidRunner {
 
 			$description = $this->cleanComment($class->getDocComment());
 
-			$this->logger->log("\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n", Logger::LEVEL_INFO);
+			echo "\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
 
 			foreach ($methods as $method) {
 				$name = $method->getName();
 				$description = $this->cleanComment($method->getDocComment());
 				if (!$method->isConstructor() && !$method->isDestructor()) {
-					$this->logger->log("\t\t" . $name . ($description == "" ? "" : " - " . $description) , Logger::LEVEL_INFO);
+					echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
 				}
 			}
 		}
-		$this->logger->log("", Logger::LEVEL_INFO);
+		echo "\n";
 	}
 
 	protected function splitWords($value) {
@@ -87,9 +87,11 @@ class MaidRunner {
 		return $comment;
 	}
 
-	public function run($target) {
+	public function run($target, $arguments = array()) {
 
-		$this->logger->log("Starting Maid...", Logger::LEVEL_INFO);
+		$startTime = microtime();
+
+		$this->logger->log("Starting Maid target '$target'", Logger::LEVEL_INFO);
 
 
 		$maidClasses = $this->getMaidClasses();
@@ -97,15 +99,26 @@ class MaidRunner {
 		if (count($maidClasses) > 0) {
 			foreach ($maidClasses as $maidClass) {
 
-				$maidObject = new $maidClass($this->logger);
-				method_exists($maidObject, $target) && $maidObject->{$target}();
+
+				$reflectionClass = new ReflectionClass($maidClass);
+				$reflectionMethod = $reflectionClass->getMethod($target);
+				$parameters = $reflectionMethod->getParameters();
+
+				var_dump($parameters);
+
+				//$maidObject = new $maidClass($this->logger);
+				//method_exists($maidObject, $target) && $maidObject->{$target}();
 
 			}
 		} else {
 			$this->logger->log("Unable to find a Maid class. Execution of target '$target' failed.", Logger::LEVEL_INFO);
 		}
 
-		$this->logger->log("Maid finished", Logger::LEVEL_DEBUG);
+		$endTime = microtime() - $startTime;
+
+		$totalTime = $endTime;
+
+		$this->logger->log("Maid has finished in: {$totalTime}s", Logger::LEVEL_INFO);
 	}
 
 	/**
