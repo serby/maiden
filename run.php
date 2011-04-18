@@ -10,16 +10,19 @@
 require_once "MaidRunner.php";
 require_once "lib/Logger.php";
 
-$maidRunner = new MaidRunner(new Logger(Logger::LEVEL_DEBUG));
+$maidRunner = new MaidRunner($logger = new Logger(Logger::LEVEL_INFO));
 
 // Default target
 $target = "";
 
 // Commandline options
 $options = array(
-	"-l" => function() use ($maidRunner) {
+	"-l" => function($args) use ($maidRunner) {
 		$maidRunner->listTargets();
 		return false;
+	},
+	"-v" => function($args) use ($maidRunner, $logger) {
+		$logger->setLevel(Logger::LEVEL_DEBUG);
 	}
 );
 if (count($argv) == 1) {
@@ -27,7 +30,7 @@ if (count($argv) == 1) {
 }
 foreach ($argv as $arg) {
 	if (isset($options[$arg])) {
-		if (!$options[$arg]()) {
+		if ($options[$arg]($argv) === false) {
 			exit;
 		}
 	} else {
