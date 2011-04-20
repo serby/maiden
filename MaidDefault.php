@@ -53,4 +53,16 @@ class MaidDefault {
 
 		return $return;
 	}
+
+	protected function exec($command, $failOnError = true, $supressOutput = false) {
+		$this->log("Exec: $command", Logger::LEVEL_INFO);
+		if ($supressOutput) {
+			exec($command, $out, $return);
+		} else {
+			passthru($command, $return);
+		}
+		if ($failOnError && ($return !== 0)) {
+			throw new Exception("exec unsuccessful return code: $return");
+		}
+	}
 }
