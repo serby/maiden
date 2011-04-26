@@ -1,4 +1,6 @@
 <?php
+namespace Maiden;
+
 require_once "lib/Logger.php";
 require_once "lib/FileLineContentReplacer.php";
 require_once "lib/PhpTokenReplacer.php";

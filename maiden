@@ -1,9 +1,18 @@
 #!/usr/bin/php
 <?php
-require_once "MaidenRunner.php";
-require_once "lib/Logger.php";
+namespace Maiden;
 
-$maidenRunner = new MaidenRunner($logger = new Logger(Logger::LEVEL_INFO));
+$path = realpath(dirname(__FILE__));
+ini_set("include_path", ".:{$path}:{$path}/lib:" . PEAR_INSTALL_DIR);
+echo ini_get("include_path");
+spl_autoload_register(function($className) {
+	require str_replace("\\", "/", $className . ".php");
+});
+
+// require_once "Maiden/MaidenRunner.php";
+// require_once "Piton/Log/Basic.php";
+
+$maidenRunner = new MaidenRunner($logger = new \Piton\Log\Basic(Logger::LEVEL_INFO));
 
 // Commandline options
 $options = array(
