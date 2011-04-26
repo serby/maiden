@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Base class that all custom Maid.php should extend.
+ * Base class that all custom Maiden.php should extend.
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
  * @copyright Clock Limited 2011
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
  */
-class MaidDefault {
+class MaidenDefault {
 
 	/**
 	 * @var Logger

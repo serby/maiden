@@ -1,24 +1,23 @@
 <?php
 /**
- * CLI entry point for Main
+ * CLI entry point for Maiden
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
- * @copyright Clock Limited 2011
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
  */
 
-require_once "MaidRunner.php";
+require_once "MaidenRunner.php";
 require_once "lib/Logger.php";
 
-$maidRunner = new MaidRunner($logger = new Logger(Logger::LEVEL_INFO));
+$maidenRunner = new MaidenRunner($logger = new Logger(Logger::LEVEL_INFO));
 
 // Commandline options
 $options = array(
-	"-l" => function($args) use ($maidRunner) {
-		$maidRunner->listTargets();
+	"-l" => function($args) use ($maidenRunner) {
+		$maidenRunner->listTargets();
 		return false;
 	},
-	"-v" => function($args) use ($maidRunner, $logger) {
+	"-v" => function($args) use ($maidenRunner, $logger) {
 		$logger->setLevel(Logger::LEVEL_DEBUG);
 	}
 );
@@ -45,4 +44,4 @@ foreach ($argv as $arg) {
 	}
 }
 // Run the chosen target
-$maidRunner->run($target, $arguments);
+$maidenRunner->run($target, $arguments);

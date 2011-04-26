@@ -3,22 +3,22 @@ require_once "lib/Logger.php";
 require_once "lib/FileLineContentReplacer.php";
 require_once "lib/PhpTokenReplacer.php";
 require_once "lib/PostgresUpdater.php";
-require_once "MaidDefault.php";
+require_once "MaidenDefault.php";
 
 /**
- * Main Maid class that handles the reading of the target files and running the target.
+ * Main Maiden class that handles the reading of the target files and running the target.
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
  * @copyright Clock Limited 2011
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
  */
-class MaidRunner {
+class MaidenRunner {
 
 	/**
 	 * Default location of custom build files
 	 * @var string
 	 */
-	protected $defaultMaidFile = "Maid.php";
+	protected $defaultMaidenFile = "Maiden.php";
 
 	/**
 	 * All output should be set to the logger.
@@ -28,14 +28,14 @@ class MaidRunner {
 	protected $logger;
 
 	/**
-	 * The full path of the Maid.php
+	 * The full path of the Maiden.php
 	 * @var string
 	 */
 	protected $realpath;
 
 	public function __construct($logger) {
 		$this->logger = $logger;
-		$this->realPath = realpath($this->defaultMaidFile);
+		$this->realPath = realpath($this->defaultMaidenFile);
 		set_exception_handler(array($this, "exceptionHandler"));
 	}
 
@@ -44,16 +44,16 @@ class MaidRunner {
 	 */
 	public function listTargets() {
 
-		echo "Below are all the available Maid targets for: {$this->realPath}\n";
+		echo "Below are all the available Maiden targets for: {$this->realPath}\n";
 
-		$maidClasses = $this->getMaidClasses();
+		$maidenClasses = $this->getMaidenClasses();
 
-		if (count($maidClasses) < 1) {
+		if (count($maidenClasses) < 1) {
 			return false;
 		}
-		foreach ($maidClasses as $maidClass) {
+		foreach ($maidenClasses as $maidenClass) {
 
-			$class = new ReflectionClass($maidClass);
+			$class = new ReflectionClass($maidenClass);
 			$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
 
 			// If there is one method this it is just the constructor so we can ignore this class
@@ -92,13 +92,13 @@ class MaidRunner {
 
 		$startTime = microtime(true);
 
-		$this->logger->log("Starting Maid target '$target'", Logger::LEVEL_INFO);
+		$this->logger->log("Starting Maiden target '$target'", Logger::LEVEL_INFO);
 
-		$maidClasses = $this->getMaidClasses();
-		if (count($maidClasses) > 0) {
-			foreach ($maidClasses as $maidClass) {
+		$maidenClasses = $this->getMaidenClasses();
+		if (count($maidenClasses) > 0) {
+			foreach ($maidenClasses as $maidenClass) {
 
-				$reflectionClass = new ReflectionClass($maidClass);
+				$reflectionClass = new ReflectionClass($maidenClass);
 
 				if ($reflectionClass->hasMethod($target)) {
 					$reflectionMethod = $reflectionClass->getMethod($target);
@@ -110,34 +110,34 @@ class MaidRunner {
 						$arguments[] = readline("Enter value for \$" . ($parameters[$i]->getName()) . ": ");
 					}
 
-					$maidObject = new $maidClass($this->logger);
+					$maidenObject = new $maidenClass($this->logger);
 
-					call_user_method_array($target, $maidObject, $arguments);
+					call_user_method_array($target, $maidenObject, $arguments);
 					break;
 				}
 			}
 		} else {
-			$this->logger->log("Unable to find a Maid class. Execution of target '$target' failed.", Logger::LEVEL_INFO);
+			$this->logger->log("Unable to find a Maiden class. Execution of target '$target' failed.", Logger::LEVEL_INFO);
 		}
 
 		$endTime = microtime(true) - $startTime;
 
 		$totalTime = number_format($endTime, 2);
 
-		$this->logger->log("Maid has finished in: {$totalTime}s", Logger::LEVEL_INFO);
+		$this->logger->log("Maiden has finished in: {$totalTime}s", Logger::LEVEL_INFO);
 	}
 
 	/**
-	 * Finds all the custom maid classes
+	 * Finds all the custom maiden classes
 	 */
-	protected function getMaidClasses() {
+	protected function getMaidenClasses() {
 
-		if (!file_exists($this->defaultMaidFile)) {
-			throw new Exception("Unable to find Maid file '$this->defaultMaidFile'");
+		if (!file_exists($this->defaultMaidenFile)) {
+			throw new Exception("Unable to find Maiden file '$this->defaultMaidenFile'");
 		}
 
 		$definedClasses = get_declared_classes();
-		include $this->defaultMaidFile;
+		include $this->defaultMaidenFile;
 		return array_diff(get_declared_classes(), $definedClasses);
 	}
 
