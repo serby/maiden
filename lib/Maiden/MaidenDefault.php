@@ -1,5 +1,7 @@
 <?php
 namespace Maiden;
+
+use Piton\Log\DefaultLogger as Logger;
 /**
  * Base class that all custom Maiden.php should extend.
  *
@@ -14,7 +16,7 @@ class MaidenDefault {
 	 */
 	protected $logger;
 
-	public function __construct(\Piton\Log\DefaultLogger $logger) {
+	public function __construct(Logger $logger) {
 		$this->logger = $logger;
 		$this->init();
 	}
@@ -25,15 +27,8 @@ class MaidenDefault {
 	protected function init() {
 	}
 
-	/**
-	 * Proxy the log call
-	 */
-	protected function log($message, $level = \Piton\Log\DefaultLogger ::LEVEL_INFO) {
-		$this->logger->log($message, $level);
-	}
-
 	protected function loadJson($filename) {
-		$this->log("Loading JSON from '$filename'", \Piton\Log\DefaultLogger ::LEVEL_DEBUG);
+		$this->logger->log("Loading JSON from '$filename'", Logger::LEVEL_DEBUG);
 
 		$return = json_decode(file_get_contents($filename));
 
@@ -55,7 +50,7 @@ class MaidenDefault {
 	}
 
 	protected function exec($command, $failOnError = true, $supressOutput = false) {
-		$this->log("Exec: $command", \Piton\Log\DefaultLogger ::LEVEL_INFO);
+		$this->logger->log("Exec: $command", Logger::LEVEL_INFO);
 		if ($supressOutput) {
 			exec($command, $out, $return);
 		} else {
