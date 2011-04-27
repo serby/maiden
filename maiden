@@ -4,25 +4,34 @@ namespace Maiden;
 $path = realpath(dirname(__FILE__));
 ini_set("include_path", ".:{$path}:{$path}/lib:{$path}/modules/Piton/lib:" . PEAR_INSTALL_DIR);
 
-require "Piton/AutoLoader.php";
-\Piton\AutoLoader::register("{$path}/modules/Piton/lib/");
-\Piton\AutoLoader::register("{$path}/lib/");
+require "Piton/Application/AutoLoader.php";
+\Piton\Application\AutoLoader::register("{$path}/modules/Piton/lib/");
+\Piton\Application\AutoLoader::register("{$path}/lib/");
 
 $maidenRunner = new MaidenRunner($logger = new \Piton\Log\DefaultLogger());
 
 // Commandline options
 $options = array(
-	"-b" => function($args) use ($maidenRunner) {
-		$maidenRunner->listTargets();
-		return false;
-	},
-	"-l" => function($args) use ($maidenRunner) {
-		$maidenRunner->listTargetDescriptions();
-		return false;
-	},
-	"-v" => function($args) use ($maidenRunner, $logger) {
-		$logger->setLevel($logger::LEVEL_DEBUG);
-	}
+	"-b" => array(
+		"description" => "Show a bare list of targets",
+		"action" => function($args) use ($maidenRunner) {
+			$maidenRunner->listTargets();
+			return false;
+		},
+	),
+	"-l" => array(
+		"description" => "Show list of targets with descriptions",
+		"action" => function($args) use ($maidenRunner) {
+			$maidenRunner->listTargetDescriptions();
+			return false;
+		},
+	),
+	"-v" => array(
+		"description" => "Verbose output",
+		"action" => function($args) use ($maidenRunner) {
+			$logger->setLevel($logger::LEVEL_DEBUG);
+		}
+	)
 );
 
 array_shift($argv);
@@ -34,7 +43,7 @@ if (count($argv) == 0) {
 $arguments = array();
 foreach ($argv as $arg) {
 	if (!isset($target) && isset($options[$arg])) {
-		if ($options[$arg]($argv) === false) {
+		if ($options[$arg]["action"]($argv) === false) {
 			exit;
 		}
 	} else {
