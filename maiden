@@ -1,18 +1,14 @@
 #!/usr/bin/php
 <?php
 namespace Maiden;
-
 $path = realpath(dirname(__FILE__));
-ini_set("include_path", ".:{$path}:{$path}/lib:" . PEAR_INSTALL_DIR);
-echo ini_get("include_path");
-spl_autoload_register(function($className) {
-	require str_replace("\\", "/", $className . ".php");
-});
+ini_set("include_path", ".:{$path}:{$path}/lib:{$path}/modules/Piton/lib:" . PEAR_INSTALL_DIR);
 
-// require_once "Maiden/MaidenRunner.php";
-// require_once "Piton/Log/Basic.php";
+require "Piton/AutoLoader.php";
+\Piton\AutoLoader::register("{$path}/modules/Piton/lib/");
+\Piton\AutoLoader::register("{$path}/lib/");
 
-$maidenRunner = new MaidenRunner($logger = new \Piton\Log\Basic(Logger::LEVEL_INFO));
+$maidenRunner = new MaidenRunner($logger = new \Piton\Log\DefaultLogger());
 
 // Commandline options
 $options = array(
@@ -21,7 +17,7 @@ $options = array(
 		return false;
 	},
 	"-v" => function($args) use ($maidenRunner, $logger) {
-		$logger->setLevel(Logger::LEVEL_DEBUG);
+		$logger->setLevel($logger::LEVEL_DEBUG);
 	}
 );
 
@@ -32,7 +28,6 @@ if (count($argv) == 0) {
 }
 
 $arguments = array();
-
 foreach ($argv as $arg) {
 	if (!isset($target) && isset($options[$arg])) {
 		if ($options[$arg]($argv) === false) {

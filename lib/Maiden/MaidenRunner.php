@@ -1,12 +1,6 @@
 <?php
 namespace Maiden;
 
-require_once "lib/Logger.php";
-require_once "lib/FileLineContentReplacer.php";
-require_once "lib/PhpTokenReplacer.php";
-require_once "lib/PostgresUpdater.php";
-require_once "MaidenDefault.php";
-
 /**
  * Main Maiden class that handles the reading of the target files and running the target.
  *
@@ -15,6 +9,7 @@ require_once "MaidenDefault.php";
  * @license http://opensource.org/licenses/bsd-license.php New BSD License
  */
 class MaidenRunner {
+
 
 	/**
 	 * Default location of custom build files
@@ -55,8 +50,8 @@ class MaidenRunner {
 		}
 		foreach ($maidenClasses as $maidenClass) {
 
-			$class = new ReflectionClass($maidenClass);
-			$methods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
+			$class = new \ReflectionClass($maidenClass);
+			$methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 			// If there is one method this it is just the constructor so we can ignore this class
 			if (count($methods) <= 1) {
@@ -94,7 +89,7 @@ class MaidenRunner {
 
 		$startTime = microtime(true);
 
-		$this->logger->log("Starting Maiden target '$target'", Logger::LEVEL_INFO);
+		$this->logger->log("Starting Maiden target '$target'");
 
 		$maidenClasses = $this->getMaidenClasses();
 		if (count($maidenClasses) > 0) {
@@ -126,7 +121,7 @@ class MaidenRunner {
 
 		$totalTime = number_format($endTime, 2);
 
-		$this->logger->log("Maiden has finished in: {$totalTime}s", Logger::LEVEL_INFO);
+		$this->logger->log("Maiden has finished in: {$totalTime}");
 	}
 
 	/**
