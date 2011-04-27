@@ -12,6 +12,7 @@ Thumbs.db
 # Vim
 .*.sw[a-z]
 *.un~i
+tags
 
 # OsX
 .DS_Store
