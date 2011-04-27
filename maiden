@@ -12,8 +12,12 @@ $maidenRunner = new MaidenRunner($logger = new \Piton\Log\DefaultLogger());
 
 // Commandline options
 $options = array(
-	"-l" => function($args) use ($maidenRunner) {
+	"-b" => function($args) use ($maidenRunner) {
 		$maidenRunner->listTargets();
+		return false;
+	},
+	"-l" => function($args) use ($maidenRunner) {
+		$maidenRunner->listTargetDescriptions();
 		return false;
 	},
 	"-v" => function($args) use ($maidenRunner, $logger) {

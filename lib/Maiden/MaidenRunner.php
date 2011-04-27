@@ -10,7 +10,6 @@ namespace Maiden;
  */
 class MaidenRunner {
 
-
 	/**
 	 * Default location of custom build files
 	 * @var string
@@ -20,7 +19,7 @@ class MaidenRunner {
 	/**
 	 * All output should be set to the logger.
 	 *
-	 * @var Logger
+	 * @var \Piton\Log\DefaultLogger
 	 */
 	protected $logger;
 
@@ -30,7 +29,7 @@ class MaidenRunner {
 	 */
 	protected $realpath;
 
-	public function __construct($logger) {
+	public function __construct(\Piton\Log\DefaultLogger $logger) {
 		$this->logger = $logger;
 		$this->realPath = realpath($this->defaultMaidenFile);
 		set_exception_handler(array($this, "exceptionHandler"));
@@ -39,7 +38,7 @@ class MaidenRunner {
 	/**
 	 * List all the targets in the current build file.
 	 */
-	public function listTargets() {
+	public function listTargetDescriptions() {
 
 		echo "Below are all the available Maiden targets for: {$this->realPath}\n";
 
@@ -73,6 +72,31 @@ class MaidenRunner {
 		echo "\n";
 	}
 
+	public function listTargets() {
+		$maidenClasses = $this->getMaidenClasses();
+
+		if (count($maidenClasses) < 1) {
+			return false;
+		}
+		foreach ($maidenClasses as $maidenClass) {
+
+			$class = new \ReflectionClass($maidenClass);
+			$methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+
+			// If there is one method this it is just the constructor so we can ignore this class
+			if (count($methods) <= 1) {
+				continue 1;
+			}
+
+			foreach ($methods as $method) {
+				$name = $method->getName();
+				if (!$method->isConstructor() && !$method->isDestructor()) {
+					echo $name . "\n";
+				}
+			}
+		}
+	}
+
 	protected function splitWords($value) {
 		return preg_replace("/([A-Z])/", " $1", $value);
 	}
@@ -95,7 +119,7 @@ class MaidenRunner {
 		if (count($maidenClasses) > 0) {
 			foreach ($maidenClasses as $maidenClass) {
 
-				$reflectionClass = new ReflectionClass($maidenClass);
+				$reflectionClass = new \ReflectionClass($maidenClass);
 
 				if ($reflectionClass->hasMethod($target)) {
 					$reflectionMethod = $reflectionClass->getMethod($target);
