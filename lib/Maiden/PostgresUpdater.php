@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Keeps a database updated by running all the delta in a given directory on a given database.
+ * Keeps a database updated by running all the deltas in a given directory on a given database.
  *
  * @author Paul Serby <paul.serby@clock.co.uk>
  * @copyright Clock Limited 2011
@@ -12,7 +12,7 @@ class PostgresUpdater {
 	/**
 	 * Logger for output
 	 *
-	 * @var string
+	 * @var \Piton\Log\DefaultLogger
 	 */
 	private $logger;
 
