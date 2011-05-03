@@ -1,5 +1,5 @@
 <?php
-
+namespace Maiden;
 /**
  * Keeps a database updated by running all the deltas in a given directory on a given database.
  *
