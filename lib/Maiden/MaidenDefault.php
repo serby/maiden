@@ -12,7 +12,7 @@ use Piton\Log\DefaultLogger as Logger;
 class MaidenDefault {
 
 	/**
-	 * @var \Piton\Log\DefaultLogger 
+	 * @var \Piton\Log\DefaultLogger
 	 */
 	protected $logger;
 
@@ -49,15 +49,23 @@ class MaidenDefault {
 		return $return;
 	}
 
-	protected function exec($command, $failOnError = true, $supressOutput = false) {
+	protected function exec($command, $failOnError = true, $returnOutput = false) {
 		$this->logger->log("Exec: $command", Logger::LEVEL_INFO);
-		if ($supressOutput) {
+		$out = "";
+		if ($returnOutput) {
 			exec($command, $out, $return);
+			$out = implode("\n", $out);
 		} else {
 			passthru($command, $return);
 		}
 		if ($failOnError && ($return !== 0)) {
 			throw new Exception("exec unsuccessful return code: $return");
 		}
+		return $out;
+	}
+
+	protected function fail($message, $exitCode = 1) {
+		$this->logger->log("Failed: " . $message, Logger::LEVEL_ERROR);
+		exit($exitCode);
 	}
 }
