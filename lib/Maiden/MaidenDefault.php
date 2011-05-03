@@ -59,7 +59,7 @@ class MaidenDefault {
 			passthru($command, $return);
 		}
 		if ($failOnError && ($return !== 0)) {
-			throw new Exception("exec unsuccessful return code: $return");
+			throw new \Exception("exec unsuccessful return code: $return");
 		}
 		return $out;
 	}
