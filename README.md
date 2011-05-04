@@ -1,34 +1,36 @@
 # Maiden - A PHP Build Tool
 
-A very simple build system for writing build and other common development lifecycle targets.
+Maiden is a simple build system for writing build tasks and other common development tasks.
 
 ## Why another build tool? What is wrong with make, rake, phing, ant etc.
 
-At Clock we live and breath PHP, we love it! Every technically member of staff has a solid understanding and is setup to code PHP.
-All the web sites/application, all the tools, as much as possible we code in PHP.
+At Clock we live and breath PHP, we love it! Every technical member of staff has a solid understanding of PHP and is setup to code PHP.
+All the web sites/applications, all the tools, as much as possible we code in PHP.
 
-Previously we have used PHING to build, install, etc projects, but when your targets get more advanced, writing and debugging
-becomes really hard and really time consuming. It didn't make any sense! Everyone has all the tools to write and debug PHP and yet we were
-programming in XML. Also our QA tools couldn't be used to ensure that our PHING/ANT build targets where valid and of a descent quality.
+Previously we have used PHING to build, install, deploy, etc, but when your targets get more advanced, writing and debugging
+becomes really hard and really time consuming. This approach didn't make any sense! Everyone has the tools to write and debug PHP and yet we were
+programming in XML. Also our QA tools couldn't be used to ensure that our PHING/ANT build targets were valid and of a descent quality.
 
-Maiden aims to keep all of your project code in a common language. If you have PHP tools/classes that your project uses then your build targets
-can also take advantage of these. 
+Maiden aims to keep all of your project code in a common language. If you have PHP tools and classes that your project uses then your build targets
+can also take advantage of these. You can even use PHPUnit to test your build scripts.
 
-Another advantage of Maiden is that your build files benefit from all the power of PHPs abstraction, inheritance, namespaces, std library etc, 
-so you write less code and have more powerful maintainable build targets.
+Another advantage of Maiden is that your build files benefit from all the power of PHPs language constructs; abstraction, inheritance, namespaces,
+the std library, you can use them all. All this means you write less code, but produce better quality and more powerful build targets.
 
 ## Installation
 
-     sudo cd /usr/share/php
-     git clone git://github.com/PabloSerbo/maiden.git
+     cd /usr/share/php
+     sudo git clone git://github.com/PabloSerbo/maiden.git
      cd maiden
-     ./maiden install
+     sudo git submodule init
+     sudo git submodule update
+     sudo ./maiden install
 
 ## Usage
 
      maided -h 						# Show help
      maiden -l 						# List all targets in Maid.php
-     maiden <target>			# Run <target>
+     maiden <target>				# Runs a <target>
 
 ## Credits
 [Paul Serby](https://github.com/PabloSerbo/)
