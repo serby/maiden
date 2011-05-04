@@ -28,7 +28,7 @@ the std library, you can use them all. All this means you write less code, but p
 
 ## Usage
 
-     maided -h 						# Show help
+     maiden -h 						# Show help
      maiden -l 						# List all targets in ./Maiden.php
      maiden <target>				# Runs a <target>
 
