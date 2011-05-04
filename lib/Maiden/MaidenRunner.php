@@ -98,7 +98,7 @@ class MaidenRunner {
 	}
 
 	protected function splitWords($value) {
-		return preg_replace("/([A-Z])/", " $1", $value);
+		return preg_replace(array("/([A-Z])/", "/\\\/"), array(" $1", " -"), $value);
 	}
 
 	protected function cleanComment($comment) {
@@ -154,7 +154,7 @@ class MaidenRunner {
 	protected function getMaidenClasses() {
 
 		if (!file_exists($this->defaultMaidenFile)) {
-			throw new Exception("Unable to find Maiden file '$this->defaultMaidenFile'");
+			throw new \Exception("Unable to find Maiden file '$this->defaultMaidenFile'");
 		}
 
 		$definedClasses = get_declared_classes();
@@ -166,7 +166,7 @@ class MaidenRunner {
 	 * Exceptions are also sent to the defined logger.
 	 */
 	public function exceptionHandler($exception) {
-		$this->logger->log($exception, Logger::LEVEL_ERROR);
+		$this->logger->log($exception, \Piton\Log\DefaultLogger::LEVEL_ERROR);
 		exit(1);
 	}
 }
