@@ -1,0 +1,73 @@
+{
+	"application": {
+		"name": "Example Project",
+		"path": "Application",
+		"bootstrapPath": "Application/Bootstrap.php",
+		"vhostPath": "Config/Apache/vhost.conf"
+	},
+	"apache": {
+		"vhostPath": "/etc/apache2/sites-enabled"
+	},
+	"site": {
+		"path": "Site"
+	},
+	"scm": {
+		"type": "git",
+		"url": "",
+		"deploymentBranch" : "master"
+	},
+	"database": {
+		"schemaPath": "Support/Database/Schema",
+		"deltaPath": "Support/Database/Delta"
+	},
+	"development": {
+		"domain": "",
+		"path": "",
+		"host": "localhost",
+		"sshPort": "17510",
+		"ipAddress": "*",
+		"user": "webdev",
+		"logPath": "",
+		"cachePath": "",
+		"dataPath": "",
+		"database": {
+			"name": "",
+			"host": "localhost",
+			"port": "5432",
+			"user": "postgres",
+			"password": ""
+		},
+		"memcache": {
+			"host": "localhost"
+		},
+		"email": {
+			"support": "developer@clock.co.uk",
+			"developer": "developer@clock.co.uk"
+		}
+	},
+	"production": {
+		"domain": "",
+		"path": "",
+		"host": "",
+		"sshPort": "22",
+		"ipAddress": "*",
+		"user": "webdev",
+		"logPath": "",
+		"cachePath": "",
+		"dataPath": "",
+		"database": {
+			"name": "",
+			"host": "localhost",
+			"port": "5432",
+			"user": "postgres",
+			"password": ""
+		},
+		"memcache": {
+			"host": "localhost"
+		},
+		"email": {
+			"support": "developer@clock.co.uk",
+			"developer": "developer@clock.co.uk"
+		}
+	}
+}
