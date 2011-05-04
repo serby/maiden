@@ -44,7 +44,7 @@ class PostgresUpdater {
 	 */
 	private $password;
 
-	public function __construct(Logger $logger, $deltaPath, $dsn, $user, $password) {
+	public function __construct(\Piton\Log\DefaultLogger $logger, $deltaPath, $dsn, $user, $password) {
 		$this->logger = $logger;
 		$this->deltaPath = $deltaPath;
 		$this->dsn = $dsn;
@@ -107,10 +107,10 @@ SQL;
 	 */
 	public function update() {
 
-		$this->connection = new PDO($this->dsn, $this->user, $this->password);
+		$this->connection = new \PDO($this->dsn, $this->user, $this->password);
 
 		$files = array();
-		foreach (new DirectoryIterator($this->deltaPath) as $fileInfo) {
+		foreach (new \DirectoryIterator($this->deltaPath) as $fileInfo) {
 			if ($fileInfo->isDot()) {
 				continue;
 			}
