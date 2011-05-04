@@ -10,6 +10,8 @@ require "Piton/Application/AutoLoader.php";
 
 $maidenRunner = new MaidenRunner($logger = new \Piton\Log\DefaultLogger());
 
+$options = array();
+
 // Commandline options
 $options = array(
 	"-b" => array(
@@ -26,16 +28,26 @@ $options = array(
 			return false;
 		},
 	),
+	"-q" => array(
+		"description" => "Run target and supress output",
+		"action" => function($args) use ($maidenRunner, $logger) {
+			$logger->setLevel($logger::LEVEL_WARNING);
+		},
+	),
 	"-v" => array(
-		"description" => "Verbose output",
-		"action" => function($args) use ($maidenRunner) {
+		"description" => "Run target with verbose output",
+		"action" => function($args) use ($maidenRunner, $logger) {
 			$logger->setLevel($logger::LEVEL_DEBUG);
 		},
 	),
 	"-h" => array(
 		"description" => "Displays this usages",
-		"action" => function() {
+		"action" => function($args, $options) {
 			echo "\n\tMaiden a PHP build tool by Paul Serby\n\n";
+			foreach ($options as $option => $optionData) {
+				echo "\t$option\t{$optionData["description"]}\n";
+			}
+			echo "\n";
 			return false;
 		}
 	)
@@ -50,7 +62,7 @@ if (count($argv) == 0) {
 $arguments = array();
 foreach ($argv as $arg) {
 	if (!isset($target) && isset($options[$arg])) {
-		if ($options[$arg]["action"]($argv) === false) {
+		if ($options[$arg]["action"]($argv, $options) === false) {
 			exit;
 		}
 	} else {
