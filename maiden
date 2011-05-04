@@ -30,6 +30,13 @@ $options = array(
 		"description" => "Verbose output",
 		"action" => function($args) use ($maidenRunner) {
 			$logger->setLevel($logger::LEVEL_DEBUG);
+		},
+	),
+	"-h" => array(
+		"description" => "Displays this usages",
+		"action" => function() {
+			echo "\n\tMaiden a PHP build tool by Paul Serby\n\n";
+			return false;
 		}
 	)
 );
