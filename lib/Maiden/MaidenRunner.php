@@ -115,6 +115,8 @@ class MaidenRunner {
 
 		$this->logger->log("Starting Maiden target '$target'");
 
+		$found = false;
+
 		$maidenClasses = $this->getMaidenClasses();
 		if (count($maidenClasses) > 0) {
 			foreach ($maidenClasses as $maidenClass) {
@@ -134,11 +136,16 @@ class MaidenRunner {
 					$maidenObject = new $maidenClass($this->logger);
 
 					call_user_method_array($target, $maidenObject, $arguments);
+					$found = true;
 					break;
 				}
 			}
 		} else {
-			$this->logger->log("Unable to find a Maiden class. Execution of target '$target' failed.", Logger::LEVEL_INFO);
+			$this->logger->log("Unable to find a Maiden class. Execution of target '$target' failed.");
+		}
+		if (!$found) {
+			echo "Unable to find target '$target'\n";
+			exit(1);
 		}
 
 		$endTime = microtime(true) - $startTime;
