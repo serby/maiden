@@ -64,7 +64,7 @@ class MaidenRunner {
 			foreach ($methods as $method) {
 				$name = $method->getName();
 				$description = $this->cleanComment($method->getDocComment());
-				if (!$method->isConstructor() && !$method->isDestructor()) {
+				if ($method->getDeclaringClass() == $class && !$method->isConstructor() && !$method->isDestructor()) {
 					echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
 				}
 			}
@@ -90,7 +90,7 @@ class MaidenRunner {
 
 			foreach ($methods as $method) {
 				$name = $method->getName();
-				if (!$method->isConstructor() && !$method->isDestructor()) {
+				if ($method->getDeclaringClass() == $class && !$method->isConstructor() && !$method->isDestructor()) {
 					echo $name . "\n";
 				}
 			}
