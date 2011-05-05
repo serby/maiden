@@ -9,7 +9,7 @@ All the web sites/applications, all the tools, as much as possible we code in PH
 
 Previously we have used PHING to build, install, deploy, etc, but when your targets get more advanced, writing and debugging
 becomes really hard and really time consuming. This approach didn't make any sense! Everyone has the tools to write and debug PHP and yet we were
-programming in XML. Also our QA tools couldn't be used to ensure that our PHING/ANT build targets were valid and of a descent quality.
+programming in XML. Also our QA tools couldn't be used to ensure that our PHING/ANT build targets were valid and of a decent quality.
 
 Maiden aims to keep all of your project code in a common language. If you have PHP tools and classes that your project uses then your build targets
 can also take advantage of these. You can even use PHPUnit to test your build scripts.
