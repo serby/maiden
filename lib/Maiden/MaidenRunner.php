@@ -33,6 +33,7 @@ class MaidenRunner {
 		$this->logger = $logger;
 		$this->realPath = realpath($this->defaultMaidenFile);
 		set_exception_handler(array($this, "exceptionHandler"));
+		set_error_handler(array($this, "exceptionErrorHandler"));
 	}
 
 	/**
@@ -135,7 +136,7 @@ class MaidenRunner {
 
 					$maidenObject = new $maidenClass($this->logger);
 
-					call_user_method_array($target, $maidenObject, $arguments);
+					call_user_func_array(array($maidenObject, $target), $arguments);
 					$found = true;
 					break;
 				}
@@ -167,6 +168,10 @@ class MaidenRunner {
 		$definedClasses = get_declared_classes();
 		include $this->defaultMaidenFile;
 		return array_diff(get_declared_classes(), $definedClasses);
+	}
+
+	public function exceptionErrorHandler($number, $message, $filename, $lineNumber ) {
+		throw new \ErrorException($message, 0, $number, $filename, $lineNumber);
 	}
 
 	/**
