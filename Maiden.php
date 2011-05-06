@@ -29,4 +29,8 @@ class MaidenProject extends MaidenDefault {
 		}
 		$this->logger->log("Install complete. Type maiden -h to ensure you have '{$this->symlinkPath}' in your path.");
 	}
+
+	public function checkForMess() {
+		$this->exec("phpmd lib text codesize,unusedcode,naming,design");
+	}
 }
