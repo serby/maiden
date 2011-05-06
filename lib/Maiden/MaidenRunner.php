@@ -50,27 +50,30 @@ class MaidenRunner {
 		}
 		foreach ($maidenClasses as $maidenClass) {
 
-			$class = new \ReflectionClass($maidenClass);
-			$methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+			$reflectionClass = new \ReflectionClass($maidenClass);
+			$methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 			// If there is one method this it is just the constructor so we can ignore this class
 			if (count($methods) <= 1) {
 				continue 1;
 			}
 
-			$description = $this->cleanComment($class->getDocComment());
+			$description = $this->cleanComment($reflectionClass->getDocComment());
 
-			echo "\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
+			echo "\n\t" . $this->splitWords($reflectionClass->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
+			$this->listMethodDescription($methods);
+			}
+		echo "\n";
+	}
 
-			foreach ($methods as $method) {
-				$name = $method->getName();
-				$description = $this->cleanComment($method->getDocComment());
-				if ($method->getDeclaringClass() == $class && !$method->isConstructor() && !$method->isDestructor()) {
-					echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
-				}
+	protected function listMethodDescription(ReflectionClass $reflectionClass, array $methods) {
+		foreach ($methods as $method) {
+			$name = $method->getName();
+			$description = $this->cleanComment($reflectionClass, $method->getDocComment());
+			if ($method->getDeclaringClass() == $reflectionClass && !$method->isConstructor() && !$method->isDestructor()) {
+				echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
 			}
 		}
-		echo "\n";
 	}
 
 	public function listTargets() {
@@ -179,6 +182,5 @@ class MaidenRunner {
 	 */
 	public function exceptionHandler($exception) {
 		$this->logger->log($exception, \Piton\Log\DefaultLogger::LEVEL_ERROR);
-		exit(1);
 	}
 }
