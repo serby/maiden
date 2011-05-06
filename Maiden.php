@@ -8,7 +8,7 @@ class MaidenProject extends MaidenDefault {
 
 	protected $symlinkPath = "/usr/bin/maiden";
 	protected $bashCompletionPath = "/etc/bash_completion.d/";
-	protected $maidenBashCompletionPathSymlink = "/etc/bash_completion.d/maiden";
+	protected $completionSymlink = "/etc/bash_completion.d/maiden";
 
 	/**
 	 * Installs Maiden on your system
@@ -24,8 +24,8 @@ class MaidenProject extends MaidenDefault {
 
 		if (file_exists($this->bashCompletionPath)) {
 			$this->logger->log("Installing bash completion");
-			unlink($this->maidenBashCompletionPathSymlink);
-			symlink(realpath("./maiden-completion.sh"), $this->maidenBashCompletionPathSymlink);
+			file_exists($this->completionSymlink) && unlink($this->completionSymlink);
+			symlink(realpath("./maiden-completion.sh"), $this->completionSymlink);
 		}
 		$this->logger->log("Install complete. Type maiden -h to ensure you have '{$this->symlinkPath}' in your path.");
 	}
