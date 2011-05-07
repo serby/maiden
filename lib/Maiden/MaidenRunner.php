@@ -61,15 +61,16 @@ class MaidenRunner {
 			$description = $this->cleanComment($reflectionClass->getDocComment());
 
 			echo "\n\t" . $this->splitWords($reflectionClass->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
-			$this->listMethodDescription($methods);
 			}
+			$this->listMethodDescription($reflectionClass);
 		echo "\n";
 	}
 
-	protected function listMethodDescription(ReflectionClass $reflectionClass, array $methods) {
+	protected function listMethodDescription(\ReflectionClass $reflectionClass) {
+		$methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
 		foreach ($methods as $method) {
 			$name = $method->getName();
-			$description = $this->cleanComment($reflectionClass, $method->getDocComment());
+			$description = $this->cleanComment($method->getDocComment());
 			if ($method->getDeclaringClass() == $reflectionClass && !$method->isConstructor() && !$method->isDestructor()) {
 				echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
 			}
