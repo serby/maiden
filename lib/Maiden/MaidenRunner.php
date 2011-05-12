@@ -61,8 +61,8 @@ class MaidenRunner {
 			$description = $this->cleanComment($reflectionClass->getDocComment());
 
 			echo "\n\t" . $this->splitWords($reflectionClass->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
-			}
 			$this->listMethodDescription($reflectionClass);
+		}
 		echo "\n";
 	}
 
