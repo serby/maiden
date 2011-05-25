@@ -14,6 +14,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		return array(
 			"ProjectName" => $this->properties->application->name,
 			"ProjectPath" => $environment->path,
+			"SitePath" => $this->properties->site->path,
 			"CachePath" => $environment->cachePath,
 			"LogPath" => $environment->logPath,
 			"DataPath" => $environment->dataPath,
@@ -21,7 +22,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			"SiteDomain" => $environment->domain,
 			"EmailDeveloper" => $environment->email->developer,
 			"EmailSupport" => $environment->email->support,
-		"DatabaseHost" => $environment->database->host,
+			"DatabaseHost" => $environment->database->host,
 			"DatabasePort" => $environment->database->port,
 			"DatabaseName" => $environment->database->name,
 			"DatabaseUser" => $environment->database->user,
@@ -128,6 +129,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$this->replaceTokens(array(
 			"VERSION" => $version,
 			"REVISION" => $revision,
+			"VERSION-NUMBER" => $version . "-" . $revision,
 			"DATE" => date("Y-m-d"),
 			"TIME" => date("H:i:s"),
 			"ENVIRONMENT" => $environmentName,
@@ -271,13 +273,13 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	public function restoreDatabase($dumpFile, $currentEnvName) {
 		$currentEnv = $this->getEnvironment($currentEnvName);
 		$this->logger->log("Killing any connection to '$currentEnvName' database '{$currentEnv->database->name}'", Logger::LEVEL_DEBUG);
-		$this->exec("sudo pkill -f 'postgres {$currentEnv->database->name}'", false);
+		$this->exec("sudo pkill -f '{$currentEnv->database->name}'", false);
 		$this->logger->log("Dropping '$currentEnvName' database '{$currentEnv->database->name}'", Logger::LEVEL_DEBUG);
 
 		$this->exec("ssh {$currentEnv->database->host} 'dropdb -U postgres -p {$currentEnv->database->port} {$currentEnv->database->name}'", false);
 
 		$this->logger->log("Creating '$currentEnvName' database '{$currentEnv->database->name}'", Logger::LEVEL_DEBUG);
-		$this->exec("ssh {$currentEnv->database->host} 'createdb -U postgres -p {$currentEnv->database->port} {$currentEnv->database->name}'");
+		$this->exec("ssh {$currentEnv->database->host} 'createdb -T template0 -E utf8 -U postgres -p {$currentEnv->database->port} {$currentEnv->database->name}'");
 
 		$this->logger->log("Restoring '$currentEnvName' database '{$currentEnv->database->name}'");
 		$this->exec("gzip -dc $dumpFile | ssh {$currentEnv->database->host} " .
@@ -346,12 +348,12 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	/**
 	 * Setups up the folders for a given environment. Assumes you are on the specified environment.
 	 */
-	protected function setupFolders($environmentName) {
+	public function setupFolders($environmentName) {
 		$environment = $this->getEnvironment($environmentName);
 		$this->logger->log("Setting up folders");
-		$this->exec("mkdir -p {$environment->logPath}");
-		$this->exec("mkdir -p {$environment->cachePath}");
-		$this->exec("mkdir -p {$environment->dataPath}");
+		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->logPath}'");
+		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->cachePath}'");
+		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->dataPath}'");
 	}
 
 	/**
