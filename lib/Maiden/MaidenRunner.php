@@ -33,6 +33,7 @@ class MaidenRunner {
 		$this->logger = $logger;
 		$this->realPath = realpath($this->defaultMaidenFile);
 		set_exception_handler(array($this, "exceptionHandler"));
+		set_error_handler(array($this, "exceptionErrorHandler"));
 	}
 
 	/**
@@ -49,27 +50,31 @@ class MaidenRunner {
 		}
 		foreach ($maidenClasses as $maidenClass) {
 
-			$class = new \ReflectionClass($maidenClass);
-			$methods = $class->getMethods(\ReflectionMethod::IS_PUBLIC);
+			$reflectionClass = new \ReflectionClass($maidenClass);
+			$methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
 
 			// If there is one method this it is just the constructor so we can ignore this class
 			if (count($methods) <= 1) {
 				continue 1;
 			}
 
-			$description = $this->cleanComment($class->getDocComment());
+			$description = $this->cleanComment($reflectionClass->getDocComment());
 
-			echo "\n\t" . $this->splitWords($class->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
-
-			foreach ($methods as $method) {
-				$name = $method->getName();
-				$description = $this->cleanComment($method->getDocComment());
-				if ($method->getDeclaringClass() == $class && !$method->isConstructor() && !$method->isDestructor()) {
-					echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
-				}
-			}
+			echo "\n\t" . $this->splitWords($reflectionClass->getName()) .($description == "" ? "" : " - " . $description) . "\n\n";
+			$this->listMethodDescription($reflectionClass);
 		}
 		echo "\n";
+	}
+
+	protected function listMethodDescription(\ReflectionClass $reflectionClass) {
+		$methods = $reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC);
+		foreach ($methods as $method) {
+			$name = $method->getName();
+			$description = $this->cleanComment($method->getDocComment());
+			if ($method->getDeclaringClass() == $reflectionClass && !$method->isConstructor() && !$method->isDestructor()) {
+				echo "\t\t" . $name . ($description == "" ? "" : " - " . $description) . "\n";
+			}
+		}
 	}
 
 	public function listTargets() {
@@ -135,7 +140,7 @@ class MaidenRunner {
 
 					$maidenObject = new $maidenClass($this->logger);
 
-					call_user_method_array($target, $maidenObject, $arguments);
+					call_user_func_array(array($maidenObject, $target), $arguments);
 					$found = true;
 					break;
 				}
@@ -169,11 +174,14 @@ class MaidenRunner {
 		return array_diff(get_declared_classes(), $definedClasses);
 	}
 
+	public function exceptionErrorHandler($number, $message, $filename, $lineNumber ) {
+		throw new \ErrorException($message, 0, $number, $filename, $lineNumber);
+	}
+
 	/**
 	 * Exceptions are also sent to the defined logger.
 	 */
 	public function exceptionHandler($exception) {
 		$this->logger->log($exception, \Piton\Log\DefaultLogger::LEVEL_ERROR);
-		exit(1);
 	}
 }

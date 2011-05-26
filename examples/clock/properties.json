@@ -1,6 +1,6 @@
 {
 	"application": {
-		"name": "Example Project",
+		"name": "ClockIntranet",
 		"path": "Application",
 		"bootstrapPath": "Application/Bootstrap.php",
 		"vhostPath": "Config/Apache/vhost.conf"
@@ -13,7 +13,7 @@
 	},
 	"scm": {
 		"type": "git",
-		"url": "",
+		"url": "ssh://otso.clockhosting.com/var/git/Clock/Intranet.git",
 		"deploymentBranch" : "master"
 	},
 	"database": {
@@ -21,22 +21,23 @@
 		"deltaPath": "Support/Database/Delta"
 	},
 	"development": {
-		"domain": "",
-		"path": "",
+		"domain": "intranet.furnace4.clock.co.uk",
+		"path": "/var/application/Clock/Intranet",
 		"host": "localhost",
 		"sshPort": "17510",
 		"ipAddress": "*",
 		"user": "webdev",
-		"logPath": "",
-		"cachePath": "",
-		"dataPath": "",
+		"logPath": "/var/log/application/Clock/Intranet",
+		"cachePath": "/var/cache/application/Clock/Intranet",
+		"dataPath": "/var/data/application/Clock/Intranet",
 		"database": {
-			"name": "",
+			"name": "ClockIntranet",
 			"host": "localhost",
 			"port": "5432",
 			"user": "postgres",
 			"password": ""
 		},
+		"debugMode": true,
 		"memcache": {
 			"host": "localhost"
 		},
@@ -46,17 +47,42 @@
 		}
 	},
 	"production": {
-		"domain": "",
-		"path": "",
-		"host": "",
-		"sshPort": "22",
+		"domain": "intranet.clock.co.uk",
+		"path": "/var/application/Clock/Intranet",
+		"host": "roc.clockhosting.com",
+		"sshPort": "17510",
+		"ipAddress": "89.151.72.120",
+		"user": "webdev",
+		"logPath": "/var/log/application/Clock/Intranet",
+		"cachePath": "/var/cache/application/Clock/Intranet",
+		"dataPath": "/var/data/application/Clock/Intranet",
+		"database": {
+			"name": "ClockIntranet",
+			"host": "ettin.private.clockhosting.com",
+			"port": "5432",
+			"user": "WebUser",
+			"password": "test"
+		},
+		"memcache": {
+			"host": "localhost"
+		},
+		"email": {
+			"support": "developer@clock.co.uk",
+			"developer": "developer@clock.co.uk"
+		}
+	},
+	"testing": {
+		"domain": "intranet.clock.co.uk",
+		"path": "/var/application/Clock/Intranet",
+		"host": "izzy.wd4.clock.co.uk",
+		"sshPort": "17510",
 		"ipAddress": "*",
 		"user": "webdev",
-		"logPath": "",
-		"cachePath": "",
-		"dataPath": "",
+		"logPath": "/var/log/application/Clock/Intranet",
+		"cachePath": "/var/cache/application/Clock/Intranet",
+		"dataPath": "/var/data/application/Clock/Intranet",
 		"database": {
-			"name": "",
+			"name": "ClockIntranet",
 			"host": "localhost",
 			"port": "5432",
 			"user": "postgres",

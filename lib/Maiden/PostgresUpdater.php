@@ -14,35 +14,35 @@ class PostgresUpdater {
 	 *
 	 * @var \Piton\Log\DefaultLogger
 	 */
-	private $logger;
+	protected $logger;
 
 	/**
 	 * The PDO database connection string
 	 *
 	 * @var string
 	 */
-	private $dsn;
+	protected $dsn;
 
 	/**
 	 * Path to the SQL delta files
 	 *
 	 * @var string
 	 */
-	private $deltaPath;
+	protected $deltaPath;
 
 	/**
 	 * Username to authenticate with.
 	 *
 	 * @var string
 	 */
-	private $username;
+	protected $username;
 
 	/**
 	 * Password to authenticate with.
 	 *
 	 * @var string
 	 */
-	private $password;
+	protected $password;
 
 	public function __construct(\Piton\Log\DefaultLogger $logger, $deltaPath, $dsn, $user, $password) {
 		$this->logger = $logger;
@@ -92,7 +92,7 @@ SQL;
 		return $this->connection->query($sql)->rowCount();
 	}
 
-	private function writeChangelog($filePath) {
+	protected function writeChangelog($filePath) {
 		$filePath = $this->connection->quote($filePath);
 		$sql = <<<SQL
 INSERT INTO "DatabaseChangelog" ("Filename") VALUES ({$filePath});
