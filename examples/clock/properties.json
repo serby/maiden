@@ -1,6 +1,6 @@
 {
 	"application": {
-		"name": "ClockIntranet",
+		"name": "Maiden",
 		"path": "Application",
 		"bootstrapPath": "Application/Bootstrap.php",
 		"vhostPath": "Config/Apache/vhost.conf"
@@ -13,7 +13,7 @@
 	},
 	"scm": {
 		"type": "git",
-		"url": "ssh://otso.clockhosting.com/var/git/Clock/Intranet.git",
+		"url": "git@github.com:PabloSerbo/maiden.git",
 		"deploymentBranch" : "master"
 	},
 	"database": {
@@ -21,17 +21,17 @@
 		"deltaPath": "Support/Database/Delta"
 	},
 	"development": {
-		"domain": "intranet.furnace4.clock.co.uk",
-		"path": "/var/application/Clock/Intranet",
+		"domain": "maiden.development.clock.co.uk",
+		"path": "/var/application/Clock/Maiden",
 		"host": "localhost",
 		"sshPort": "17510",
 		"ipAddress": "*",
 		"user": "webdev",
-		"logPath": "/var/log/application/Clock/Intranet",
-		"cachePath": "/var/cache/application/Clock/Intranet",
-		"dataPath": "/var/data/application/Clock/Intranet",
+		"logPath": "/var/log/application/Clock/Maiden",
+		"cachePath": "/var/cache/application/Clock/Maiden",
+		"dataPath": "/var/data/application/Clock/",
 		"database": {
-			"name": "ClockIntranet",
+			"name": "Maiden",
 			"host": "localhost",
 			"port": "5432",
 			"user": "postgres",
@@ -47,45 +47,20 @@
 		}
 	},
 	"production": {
-		"domain": "intranet.clock.co.uk",
-		"path": "/var/application/Clock/Intranet",
-		"host": "roc.clockhosting.com",
-		"sshPort": "17510",
-		"ipAddress": "89.151.72.120",
+		"domain": "maiden.clock.co.uk",
+		"path": "/var/application/Clock/Maiden",
+		"host": "",
+		"sshPort": "",
+		"ipAddress": "",
 		"user": "webdev",
-		"logPath": "/var/log/application/Clock/Intranet",
-		"cachePath": "/var/cache/application/Clock/Intranet",
-		"dataPath": "/var/data/application/Clock/Intranet",
+		"logPath": "/var/log/application/Clock/Maiden",
+		"cachePath": "/var/cache/application/Clock/Maiden",
+		"dataPath": "/var/data/application/Clock/Maiden",
 		"database": {
-			"name": "ClockIntranet",
-			"host": "ettin.private.clockhosting.com",
+			"name": "Maident",
+			"host": "",
 			"port": "5432",
-			"user": "WebUser",
-			"password": "test"
-		},
-		"memcache": {
-			"host": "localhost"
-		},
-		"email": {
-			"support": "developer@clock.co.uk",
-			"developer": "developer@clock.co.uk"
-		}
-	},
-	"testing": {
-		"domain": "intranet.clock.co.uk",
-		"path": "/var/application/Clock/Intranet",
-		"host": "izzy.wd4.clock.co.uk",
-		"sshPort": "17510",
-		"ipAddress": "*",
-		"user": "webdev",
-		"logPath": "/var/log/application/Clock/Intranet",
-		"cachePath": "/var/cache/application/Clock/Intranet",
-		"dataPath": "/var/data/application/Clock/Intranet",
-		"database": {
-			"name": "ClockIntranet",
-			"host": "localhost",
-			"port": "5432",
-			"user": "postgres",
+			"user": "",
 			"password": ""
 		},
 		"memcache": {
@@ -95,5 +70,5 @@
 			"support": "developer@clock.co.uk",
 			"developer": "developer@clock.co.uk"
 		}
-	}
+	}	
 }
