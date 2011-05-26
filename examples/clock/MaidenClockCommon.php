@@ -28,7 +28,8 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			"DatabaseUser" => $environment->database->user,
 			"DatabasePassword" => $environment->database->password,
 			"MemcacheServer" => $environment->memcache->host,
-			"DebugMode" => isset($environment->debugMode) ? "true" : "false"
+			"DebugMode" => isset($environment->debugMode) ? "true" : "false",
+			"IncludeServerAlias" => isset($environment->includeServerAlias) ? $environment->includeServerAlias : ""
 		);
 	}
 
@@ -121,6 +122,8 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		chdir($tempBuildPath);
 		$this->exec("git checkout {$version}");
 		$revision = $this->exec("git log --pretty=format:%h -b {$deploymentBranch} | head -n1 ", true, true);
+		$this->exec("git submodule init");
+		$this->exec("git submodule update");
 		chdir($currentDirectory);
 
 		// Create templated files
