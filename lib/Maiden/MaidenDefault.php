@@ -29,6 +29,10 @@ class MaidenDefault {
 
 	protected function loadJson($filename) {
 		$this->logger->log("Loading JSON from '$filename'", Logger::LEVEL_DEBUG);
+		
+		if (!file_exists($filename)) {
+			throw new Exception("Loading '{$filename}' - File does not exist");
+		}
 
 		$return = json_decode(file_get_contents($filename));
 
