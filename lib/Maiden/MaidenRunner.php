@@ -123,6 +123,10 @@ class MaidenRunner {
 		$found = false;
 
 		$maidenClasses = $this->getMaidenClasses();
+
+		// Reversing the sort to force the top level class to checked first for methods.
+		//TODO: This might not always ensure the correct result
+		rsort($maidenClasses);
 		if (count($maidenClasses) > 0) {
 			foreach ($maidenClasses as $maidenClass) {
 
