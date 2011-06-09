@@ -29,7 +29,7 @@
 		"user": "webdev",
 		"logPath": "/var/log/application/Clock/Maiden",
 		"cachePath": "/var/cache/application/Clock/Maiden",
-		"dataPath": "/var/data/application/Clock/",
+		"dataPath": "/var/data/application/Clock/Maiden",
 		"database": {
 			"name": "Maiden",
 			"host": "localhost",
