@@ -355,12 +355,9 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$environment = $this->getEnvironment($environmentName);
 		$this->logger->log("Setting up folders");
 		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->logPath}'");
-		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->cachePath}'");
-		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->dataPath}'");
+		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->cachePath}/Resource'");
 		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->cachePath}/Binary'");
-		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->cachePath}/Resourse'");
 		$this->exec("sudo -u www-data sh -c 'umask 002; mkdir -p {$environment->dataPath}/Binary'");
-	
 	}
 
 	/**
