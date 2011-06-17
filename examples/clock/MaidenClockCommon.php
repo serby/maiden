@@ -246,13 +246,14 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Runs any unprocessed deltas in $this->properties->database->deltaPath. This assumes you are on the correct environment.
 	 */
 	public function updateDatabase($environmentName, $path = null) {
+		
 		$this->logger->log("Updating database with deltas");
+		$environment = $this->getEnvironment($environmentName);
 
-		if ($path === null) {
+		if ($path === null || $path === "") {
 			$path = $environment->path;
 		}
 
-		$environment = $this->getEnvironment($environmentName);
 		$databaseUpdater = new \Maiden\PostgresUpdater(
 			$this->logger,
 			$path . "/" . $this->properties->database->deltaPath,
