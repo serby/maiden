@@ -72,7 +72,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			unlink($vhostPath);
 		}
 
-		$this->logger->log("Adding vhost to apache: {$vhostPath}");
+		$this->logger->log("Adding vhost $environment->domain to apache: {$vhostPath}");
 		symlink("{$environment->path}/{$this->properties->application->vhostPath}", "{$vhostPath}");
 	}
 
@@ -389,9 +389,10 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			unlink($actualPath);
 		}
 
-		rename($tempName, $actualPath);
+		//Luke: rename() was unable to continue after being unable to preserve times and permissions when copying from linux to widows file system
+		shell_exec("mv escapeshellarg($tempName) escapeshellarg($actualPath)");
 		$this->logger->log("Creating file '$actualPath'", Logger::LEVEL_DEBUG);
-
+		
 		return $this;
 	}
 
