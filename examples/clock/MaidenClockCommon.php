@@ -390,7 +390,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		}
 
 		//Luke: rename() was unable to continue after being unable to preserve times and permissions when copying from linux to widows file system
-		shell_exec("mv escapeshellarg($tempName) escapeshellarg($actualPath)");
+		shell_exec("mv " . escapeshellarg($tempName) . " " . escapeshellarg($actualPath));
 		$this->logger->log("Creating file '$actualPath'", Logger::LEVEL_DEBUG);
 		
 		return $this;
