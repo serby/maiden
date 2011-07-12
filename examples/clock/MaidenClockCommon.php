@@ -72,7 +72,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			unlink($vhostPath);
 		}
 
-		$this->logger->log("Adding vhost to apache: {$vhostPath}");
+		$this->logger->log("Adding vhost $environment->domain to apache: {$vhostPath}");
 		symlink("{$environment->path}/{$this->properties->application->vhostPath}", "{$vhostPath}");
 	}
 
@@ -246,13 +246,14 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Runs any unprocessed deltas in $this->properties->database->deltaPath. This assumes you are on the correct environment.
 	 */
 	public function updateDatabase($environmentName, $path = null) {
+		
 		$this->logger->log("Updating database with deltas");
+		$environment = $this->getEnvironment($environmentName);
 
-		if ($path === null) {
+		if ($path === null || $path === "") {
 			$path = $environment->path;
 		}
 
-		$environment = $this->getEnvironment($environmentName);
 		$databaseUpdater = new \Maiden\PostgresUpdater(
 			$this->logger,
 			$path . "/" . $this->properties->database->deltaPath,
@@ -388,9 +389,10 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			unlink($actualPath);
 		}
 
-		rename($tempName, $actualPath);
+		//Luke: rename() was unable to continue after being unable to preserve times and permissions when copying from linux to widows file system
+		shell_exec("mv " . escapeshellarg($tempName) . " " . escapeshellarg($actualPath));
 		$this->logger->log("Creating file '$actualPath'", Logger::LEVEL_DEBUG);
-
+		
 		return $this;
 	}
 
