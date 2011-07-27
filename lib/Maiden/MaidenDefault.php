@@ -31,20 +31,20 @@ class MaidenDefault {
 		$this->logger->log("Loading JSON from '$filename'", Logger::LEVEL_DEBUG);
 		
 		if (!file_exists($filename)) {
-			throw new Exception("Loading '{$filename}' - File does not exist");
+			throw new \Exception("Loading '{$filename}' - File does not exist");
 		}
 
 		$return = json_decode(file_get_contents($filename));
 
 		switch (json_last_error()) {
 			case JSON_ERROR_DEPTH:
-				throw new Exception("Parsing '{$filename}' - Maximum stack depth exceeded");
+				throw new \Exception("Parsing '{$filename}' - Maximum stack depth exceeded");
 			break;
 			case JSON_ERROR_CTRL_CHAR:
-				throw new Exception("Parsing '{$filename}' - Unexpected control character found");
+				throw new \Exception("Parsing '{$filename}' - Unexpected control character found");
 			break;
 			case JSON_ERROR_SYNTAX:
-				throw new Exception("Parsing '{$filename}' - Syntax error, malformed JSON");
+				throw new \Exception("Parsing '{$filename}' - Syntax error, malformed JSON");
 			break;
 			case JSON_ERROR_NONE:
 				break;
