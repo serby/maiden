@@ -34,6 +34,8 @@ the std library, you can use them all. All this means you write less code, but p
 
 ## Credits
 [Paul Serby](https://github.com/PabloSerbo/)
+[Steven Jack](https://github.com/stevenjack/)
+[Luke Wilde](https://github.com/lukewilde/)
 
 ## Licence
 Licenced under the [New BSD License](http://opensource.org/licenses/bsd-license.php)
