@@ -55,7 +55,7 @@ class PostgresUpdater {
 	protected function run($statements) {
 		if ($this->connection->exec($statements) === false) {
 			$error = $this->connection->errorInfo();
-			throw new Exception("Failed: " . print_r($error, true));
+			throw new \Exception("Failed: " . print_r($error, true));
 		}
 	}
 
