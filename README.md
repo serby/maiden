@@ -4,7 +4,7 @@ Maiden is a simple build system for writing build tasks and other common develop
 
 ## Why another build tool? What is wrong with make, rake, phing, ant etc.
 
-At Clock we live and breath PHP, we love it! Every technical member of staff has a solid understanding of PHP and is setup to code PHP.
+At Clock we live and breath PHP (And node.js), we love it! Every technical member of staff has a solid understanding of PHP and is setup to code PHP.
 All the web sites/applications, all the tools, as much as possible we code in PHP.
 
 Previously we have used PHING to build, install, deploy, etc, but when your targets get more advanced, writing and debugging
