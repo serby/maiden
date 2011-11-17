@@ -73,6 +73,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		}
 
 		$this->logger->log("Adding vhost $environment->domain to apache: {$vhostPath}");
+		
 		symlink("{$environment->path}/{$this->properties->application->vhostPath}", "{$vhostPath}");
 	}
 
@@ -184,13 +185,15 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		// Copy to the actual location
 		$this->exec("cp -a {$buildPath}/ {$actualPath}/");
 
+		$this->setupFolders($environmentName);
+
+		$this->updateDatabase($environmentName, $actualPath);
+
 		if (file_exists($environment->path)) {
 			$this->logger->log("Remoing existing symlink", Logger::LEVEL_DEBUG);
 			unlink($environment->path);
 		}
-		$this->setupFolders($environmentName);
-		$this->updateDatabase($environmentName, $actualPath);
-
+		
 		$this->logger->log("Creating symlink from '$actualPath' to '{$environment->path}'");
 		symlink($actualPath, $environment->path);
 
@@ -211,7 +214,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$environment = $this->getEnvironment($environmentName);
 
 		$tempName = $this->getTemporyFilename();
-		$this->remoteExec($environmentName, " mkdir $tempName && cd $tempName && git clone -b {$this->properties->scm->deploymentBranch} {$this->properties->scm->url} $tempName");
+		$this->remoteExec($environmentName, " mkdir $tempName && cd $tempName && git clone -b {$this->properties->scm->deploymentBranch} {$this->properties->scm->url} $tempName && git checkout $version");
 
 		$this->remoteExec($environmentName, "cd $tempName && maiden build $environmentName $version");
 		$this->remoteExec($environmentName, "cd $tempName && maiden install $environmentName $version");
@@ -246,7 +249,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Runs any unprocessed deltas in $this->properties->database->deltaPath. This assumes you are on the correct environment.
 	 */
 	public function updateDatabase($environmentName, $path = null) {
-		
+
 		$this->logger->log("Updating database with deltas");
 		$environment = $this->getEnvironment($environmentName);
 
@@ -392,7 +395,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		//Luke: rename() was unable to continue after being unable to preserve times and permissions when copying from linux to widows file system
 		shell_exec("mv " . escapeshellarg($tempName) . " " . escapeshellarg($actualPath));
 		$this->logger->log("Creating file '$actualPath'", Logger::LEVEL_DEBUG);
-		
+
 		return $this;
 	}
 
