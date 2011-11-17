@@ -213,7 +213,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$environment = $this->getEnvironment($environmentName);
 
 		$tempName = $this->getTemporyFilename();
-		$this->remoteExec($environmentName, " mkdir $tempName && cd $tempName && git clone -b {$this->properties->scm->deploymentBranch} {$this->properties->scm->url} $tempName");
+		$this->remoteExec($environmentName, " mkdir $tempName && cd $tempName && git clone -b {$this->properties->scm->deploymentBranch} {$this->properties->scm->url} $tempName && git checkout $version");
 
 		$this->remoteExec($environmentName, "cd $tempName && maiden build $environmentName $version");
 		$this->remoteExec($environmentName, "cd $tempName && maiden install $environmentName $version");
