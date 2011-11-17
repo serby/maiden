@@ -186,13 +186,15 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		// Copy to the actual location
 		$this->exec("cp -a {$buildPath}/ {$actualPath}/");
 
+		$this->setupFolders($environmentName);
+
+		$this->updateDatabase($environmentName, $actualPath);
+
 		if (file_exists($environment->path)) {
 			$this->logger->log("Remoing existing symlink", Logger::LEVEL_DEBUG);
 			unlink($environment->path);
 		}
-		$this->setupFolders($environmentName);
-		$this->updateDatabase($environmentName, $actualPath);
-
+		
 		$this->logger->log("Creating symlink from '$actualPath' to '{$environment->path}'");
 		symlink($actualPath, $environment->path);
 
