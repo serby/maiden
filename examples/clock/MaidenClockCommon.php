@@ -73,7 +73,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		}
 
 		$this->logger->log("Adding vhost $environment->domain to apache: {$vhostPath}");
-		$this->logger->log("Adding vhost $environment->domain");
 		
 		symlink("{$environment->path}/{$this->properties->application->vhostPath}", "{$vhostPath}");
 	}
