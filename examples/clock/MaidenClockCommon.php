@@ -122,7 +122,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$this->exec("git clone -b {$deploymentBranch} . {$tempBuildPath}");
 		chdir($tempBuildPath);
 		$this->exec("git checkout {$version}");
-		$revision = $this->exec("git log --pretty=format:%h -b {$deploymentBranch} | head -n1 ", true, true);
+		$revision = $this->exec("git log --pretty=format:%h -b {$version} | head -n1 ", true, true);
 		$this->exec("git submodule init");
 		$this->exec("git submodule update");
 		chdir($currentDirectory);
