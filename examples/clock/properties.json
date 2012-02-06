@@ -13,7 +13,7 @@
 	},
 	"scm": {
 		"type": "git",
-		"url": "git@github.com:PabloSerbo/maiden.git",
+		"url": "git@github.com:serby/maiden.git",
 		"deploymentBranch" : "master"
 	},
 	"database": {
