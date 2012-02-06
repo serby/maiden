@@ -20,7 +20,7 @@ the std library, you can use them all. All this means you write less code, but p
 ## Installation
 
      cd /usr/share/php
-     sudo git clone git://github.com/PabloSerbo/maiden.git
+     sudo git clone git://github.com/serby/maiden.git
      cd maiden
      sudo git submodule init
      sudo git submodule update
@@ -34,7 +34,7 @@ the std library, you can use them all. All this means you write less code, but p
 
 ## Credits
 
-[Paul Serby](https://github.com/PabloSerbo/)
+[Paul Serby](https://github.com/serby/)
 
 [Steven Jack](https://github.com/stevenjack/)
 
