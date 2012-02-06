@@ -73,7 +73,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		}
 
 		$this->logger->log("Adding vhost $environment->domain to apache: {$vhostPath}");
-		
+
 		symlink("{$environment->path}/{$this->properties->application->vhostPath}", "{$vhostPath}");
 	}
 
@@ -83,7 +83,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	public function tagRevision($version) {
 		$this->logger->log("Tagging revision {$version}");
 		$this->exec("git tag {$version}");
-		$this->exec("git push --tags origin master");
+		$this->exec("git push --tags");
 	}
 	/**
 	 * Builds the project ready for deployement
@@ -193,7 +193,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 			$this->logger->log("Remoing existing symlink", Logger::LEVEL_DEBUG);
 			unlink($environment->path);
 		}
-		
+
 		$this->logger->log("Creating symlink from '$actualPath' to '{$environment->path}'");
 		symlink($actualPath, $environment->path);
 
