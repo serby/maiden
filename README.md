@@ -32,6 +32,19 @@ the std library, you can use them all. All this means you write less code, but p
      maiden -l 						# List all targets in ./Maiden.php
      maiden <target>				# Runs a <target>
 
+## zsh Autocomplete
+
+### Native zsh
+
+Add the following to your ~/.zshrc (or ~/.zshrc.local):
+
+     fpath=(/usr/share/php/maiden $fpath)
+     autoload -U compinit
+     compinit -i
+     source /usr/share/php/maiden/maiden.plugin.zsh
+
+Start / restart zsh
+
 ## Credits
 
 [Paul Serby](https://github.com/serby/)
