@@ -6,7 +6,7 @@ _maiden_get_targets_list () {
 
 _maiden () {
   if [ -f Maiden.php ]; then
-    compadd '_maiden_get_targets_list'
+    compadd `_maiden_get_targets_list`
   fi
 }
 
