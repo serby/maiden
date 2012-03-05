@@ -17,6 +17,13 @@ class MaidenRunner {
 	protected $defaultMaidenFile = "Maiden.php";
 
 	/**
+	 * If the duration of the target should be output after execution.
+	 *
+	 * @var boolean
+	 */
+	protected $displayDuration = true;
+
+	/**
 	 * All output should be set to the logger.
 	 *
 	 * @var \Piton\Log\DefaultLogger
@@ -157,11 +164,15 @@ class MaidenRunner {
 			exit(1);
 		}
 
-		$endTime = microtime(true) - $startTime;
+		if ($this->displayDuration) {
+			$endTime = microtime(true) - $startTime;
 
-		$totalTime = number_format($endTime, 2);
+			$totalTime = number_format($endTime, 2);
 
-		$this->logger->log("Maiden has finished in: {$totalTime}");
+			$this->logger->log("Maiden has finished running target {$target} in: {$totalTime}");
+		} else {
+			$this->logger->log("Maiden has finished running target {$target}");
+		}
 	}
 
 	/**
@@ -176,6 +187,10 @@ class MaidenRunner {
 		$definedClasses = get_declared_classes();
 		include $this->defaultMaidenFile;
 		return array_diff(get_declared_classes(), $definedClasses);
+	}
+
+	public function setDisplayDuration($displayDuration) {
+		$this->displayDuration = $displayDuration;
 	}
 
 	public function exceptionErrorHandler($number, $message, $filename, $lineNumber ) {
