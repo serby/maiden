@@ -85,6 +85,7 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		$this->exec("git tag {$version}");
 		$this->exec("git push --tags");
 	}
+
 	/**
 	 * Builds the project ready for deployement
 	 */
@@ -249,7 +250,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Runs any unprocessed deltas in $this->properties->database->deltaPath. This assumes you are on the correct environment.
 	 */
 	public function updateDatabase($environmentName, $path = null) {
-
 		$this->logger->log("Updating database with deltas");
 		$environment = $this->getEnvironment($environmentName);
 
@@ -297,7 +297,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Get the database from the source environment and installes it on the current environment.
 	 */
 	public function copyDatabase($srcEnvName = "production", $currentEnvName = "development") {
-
 		$this->logger->log("Copying database from '$srcEnvName' to '$currentEnvName'");
 		$dumpFile = $this->getDatabaseDump($srcEnvName);
 		$this->restoreDatabase($dumpFile, $currentEnvName);
@@ -309,7 +308,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Gets the binary data from the remote environment.
 	 */
 	public function copyBinaryData($srcEnvName = "production", $currentEnvName = "development", $maxSize = 0) {
-
 		$this->logger->log("Copying binary data from '$srcEnvName' to '$currentEnvName'");
 		$srcEnv = $this->getEnvironment($srcEnvName);
 		$currentEnv = $this->getEnvironment($currentEnvName);
@@ -326,7 +324,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Gets the cache data from the remote environment.
 	 */
 	public function copyCacheData($srcEnvName = "production", $currentEnvName = "development", $maxSize = 0) {
-
 		$this->logger->log("Copying binary data from '$srcEnvName' to '$currentEnvName'");
 		$srcEnv = $this->getEnvironment($srcEnvName);
 		$currentEnv = $this->getEnvironment($currentEnvName);
@@ -368,7 +365,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Creates a file from the given template, replacing any matching tokens.
 	 */
 	protected function createFromTemplate(array $replacements, $actualPath) {
-
 		$templatePath = $actualPath . ".template";
 
 		$this->logger->log("Creating template from '$templatePath'", Logger::LEVEL_DEBUG);
@@ -403,7 +399,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 	 * Replace tokens
 	 */
 	protected function replaceTokens(array $replacements, $filePattern, $path) {
-
 		$this->logger->log("Replacing tokens in '$filePattern' at path '$path'");
 
 		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)),
@@ -418,7 +413,6 @@ class MaidenClockCommon extends \Maiden\MaidenDefault {
 		}
 
 		$this->logger->log("Replace complete in " . $count . " files");
-
 	}
 
 	/**

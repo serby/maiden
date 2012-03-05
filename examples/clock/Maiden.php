@@ -10,7 +10,6 @@ class ProjectTargets extends MaidenClockCommon {
 	 * Runs all the images on the site through an image opimizer
 	 */
 	public function optimiseImages() {
-
 	}
 
 	/**
