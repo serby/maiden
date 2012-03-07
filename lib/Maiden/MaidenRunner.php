@@ -122,7 +122,6 @@ class MaidenRunner {
 	}
 
 	public function run($target, $arguments = array()) {
-
 		$startTime = microtime(true);
 
 		$this->logger->log("Starting Maiden target '$target'");
@@ -179,7 +178,6 @@ class MaidenRunner {
 	 * Finds all the custom maiden classes
 	 */
 	protected function getMaidenClasses() {
-
 		if (!file_exists($this->defaultMaidenFile)) {
 			throw new \Exception("Unable to find Maiden file '$this->defaultMaidenFile'");
 		}

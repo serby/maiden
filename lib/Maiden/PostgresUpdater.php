@@ -79,7 +79,6 @@ class PostgresUpdater {
 	}
 
 	protected function isInChangelog($filePath) {
-
 		$sql = <<<SQL
 CREATE TABLE "DatabaseChangelog" ("Revision" serial NOT NULL,"Filename" text NOT NULL,"Created" timestamp without time zone default now(), CONSTRAINT "DatabaseChangelog_pkey" PRIMARY KEY ("Revision"));
 SQL;
@@ -106,7 +105,6 @@ SQL;
 	 * @return null
 	 */
 	public function update() {
-
 		$this->connection = new \PDO($this->dsn, $this->user, $this->password);
 
 		$files = array();
