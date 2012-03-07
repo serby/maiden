@@ -47,6 +47,12 @@ $options = array(
 			$logger->setLevel($logger::LEVEL_DEBUG);
 		},
 	),
+	"--hide-duration" => array(
+		"description" => "Run target and supress duration",
+		"action" => function($args) use ($maidenRunner) {
+			$maidenRunner->setDisplayDuration(false);
+		},
+	),
 	"-h" => array(
 		"description" => "Displays this usages",
 		"action" => function($args, $options) {
