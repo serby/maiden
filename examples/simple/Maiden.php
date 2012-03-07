@@ -12,22 +12,20 @@ class BasicTargets extends MaidDefault {
 	 * Sets up the project
 	 */
 	public function build() {
-		$this->log("Setup", Logger::LEVEL_INFO);	
+		$this->log("Setup", Logger::LEVEL_INFO);
 	}
 
 	/**
 	 * Installs the project
 	 */
 	public function install() {
-		$this->log("Install", Logger::LEVEL_INFO);	
+		$this->log("Install", Logger::LEVEL_INFO);
 	}
 
 	/**
-	 * Cleans the project 
+	 * Cleans the project
 	 */
 	public function clean() {
-		$this->log("Clean", Logger::LEVEL_INFO);	
+		$this->log("Clean", Logger::LEVEL_INFO);
 	}
-
-
 }

@@ -28,9 +28,13 @@ the std library, you can use them all. All this means you write less code, but p
 
 ## Usage
 
+     maiden 						# List all targets in ./Maiden.php with descriptions
      maiden -h 						# Show help
-     maiden -l 						# List all targets in ./Maiden.php
+     maiden -l 						# List all targets in ./Maiden.php with descriptions
+     maiden -b 						# List all targets in ./Maiden.php without descriptions
      maiden <target>				# Runs a <target>
+     maiden -q <target>				# Runs a <target> and supresses output
+     maiden -v <target>				# Runs a <target> with verbose output
 
 ## zsh Autocomplete
 
